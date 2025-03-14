@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IceDev - Luau Developer Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2185d0;
+      --secondary: #2c2f33;
+      --light: #f8f9fa;
+      --dark: #1a1b1d;
+      --accent: #3498db;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), #1a5f8c);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('/api/placeholder/800/300') center/cover;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    
+    .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    section {
+      padding: 5rem 0;
+    }
+    
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background-color: var(--accent);
+    }
+    
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+    
+    .about-info {
+      flex: 2;
+    }
+    
+    .about-image {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .about-image img {
+      border-radius: 50%;
+      border: 5px solid var(--primary);
+      max-width: 300px;
+    }
+    
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .skill-badge {
+      background-color: rgba(33, 133, 208, 0.1);
+      border: 1px solid var(--primary);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+    
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .portfolio-item {
+      background-color: var(--secondary);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .portfolio-video {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .portfolio-video iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .portfolio-info {
+      padding: 1.5rem;
+    }
+    
+    .portfolio-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    
+    .portfolio-description {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1rem;
+    }
+    
+    .pricing {
+      margin-top: 2rem;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .pricing-card {
+      background-color: var(--secondary);
+      border-radius: 10px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .pricing-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .pricing-title {
+      font-size: 1.75rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-duration {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+    
+    .pricing-features li {
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      position: relative;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .pricing-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    
+    .contact {
+      background-color: var(--secondary);
+      padding: 5rem 0;
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .contact-method {
+      flex: 1;
+      min-width: 250px;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .contact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    
+    .contact-label {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    
+    .contact-value {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 1rem;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    
+    .cta-button:hover {
+      background-color: #1a6aa2;
+      transform: translateY(-3px);
+    }
+    
+    footer {
+      background-color: var(--dark);
+      padding: 2rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .copyright {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .payment-section {
+      background-color: rgba(33, 133, 208, 0.1);
+      padding: 4rem 0;
+    }
+    
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .payment-card {
+      background-color: var(--secondary);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    
+    .payment-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .payment-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    
+    .payment-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    
+    .payment-description {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .faq-section {
+      background-color: rgba(33, 133, 208, 0.1);
+      padding: 4rem 0;
+    }
+    
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      background-color: var(--secondary);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .faq-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .faq-question {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: white;
+      position: relative;
+      padding-left: 2rem;
+    }
+    
+    .faq-question::before {
+      content: "Q:";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .faq-answer {
+      color: rgba(255, 255, 255, 0.8);
+      padding-left: 2rem;
+      position: relative;
+    }
+    
+    .faq-answer::before {
+      content: "A:";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .important-note {
+      background-color: rgba(33, 133, 208, 0.2);
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.25rem;
+      }
+      
+      .about-content {
+        flex-direction: column-reverse;
+        gap: 2rem;
+      }
+      
+      .portfolio-grid, .payment-grid, .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content container">
+      <h1>IceDev</h1>
+      <div class="subtitle">Luau Developer</div>
+      <a href="#contact" class="cta-button">Hire Me</a>
+    </div>
+  </header>
+  
+  <section id="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <div class="about-content">
+        <div class="about-info">
+          <p>I'm IceDev, a professional Luau developer (and virtual effects artist) with 3 years of experience. I specialize in creating game systems, virtual effects, npc systems, and more.</p>
+          <p>Throughout my career, I've worked on a variety of projects including RPGs, simulators, obbies, and engaging gameplay mechanics. I pride myself on writing clean and well-documented code that's easy to maintain and customize.</p>
+          <div class="skills">
+            <span class="skill-badge">Luau/Roblox Lua</span>
+            <span class="skill-badge">Virtual Effects</span>
+            <span class="skill-badge">Game Systems</span>
+            <span class="skill-badge">Simulators</span>
+            <span class="skill-badge">Dialogue System</span>
+            <span class="skill-badge">DataStore Management</span>
+          </div>
+        </div>
+        <div class="about-image">
+          <img src="https://yt3.googleusercontent.com/1Yx_Y-TepORoEDs0PsGI29ZZSkXLI4Fc2Mbi8WzEGUPCLkv8JEZrFgGotlzWq4M1wrunfooO4g=s160-c-k-c0x00ffffff-no-rj" alt="IceDev Profile">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="portfolio">
+    <div class="container">
+      <h2>My Work</h2>
+      <p>Check out some of my recent Roblox development projects. Each video showcases different aspects of my Luau coding capabilities.</p>
+      
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <iframe src="https://www.youtube.com/embed/-sQJUtkikUI?si=L-jMYmDfzMIr1j4x" title="Inventory System" allowfullscreen></iframe>
+          </div>
+          <div class="portfolio-info">
+            <h3 class="portfolio-title">Inventory System</h3>
+            <p class="portfolio-description">An inventory system featuring viewport frames, working tools, and its very customizable.</p>
+          </div>
+        </div>
+        
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <iframe src="https://www.youtube.com/embed/iQDSZ3CjLq0?si=YcqZMttNi_9pX-Sv" title="NPC Loot System" allowfullscreen></iframe>
+          </div>
+          <div class="portfolio-info">
+            <h3 class="portfolio-title">NPC Loot System</h3>
+            <p class="portfolio-description">A NPC loot system featuring custom chances customizable with a module script, and can be added to multiple NPCs and items without changing the script.</p>
+          </div>
+        </div>
+        
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <iframe src="https://www.youtube.com/embed/-Y3T5sbOmH8?si=Rw-gKiGQhkh_8FTp" title="Quest System Demo" allowfullscreen></iframe>
+          </div>
+          <div class="portfolio-info">
+            <h3 class="portfolio-title">NPC Quest System</h3>
+            <p class="portfolio-description">A comprehensive quest system with branching dialogues and dynamic objectives.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="faq" class="faq-section">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <h3 class="faq-question">What's your timezone?</h3>
+          <div class="faq-answer">
+            My timezone is UTC+2.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">How much time does it take to finish a commission?</h3>
+          <div class="faq-answer">
+            It depends on the amount of tasks and their complexity. Usually for short tasks it can take 1-4 hours (work time).
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">What payment methods do you accept?</h3>
+          <div class="faq-answer">
+            I accept PayPal, Robux and any cryptocurrency.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3 class="faq-question">What are your prices?</h3>
+          <div class="faq-answer">
+            I take payments per task. It depends on the task's complexity and the time it takes to complete it.
+            <div class="important-note">
+              <strong>NOTE:</strong> I will do the scripts on a private place and when I complete them, I will send you videos and images as much as you want, get paid, and after the payment you will get access to the script.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="pricing">
+    <div class="container">
+      <h2>Pricing</h2>
+      <p>I offer flexible pricing options to accommodate projects of all sizes.</p>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3 class="pricing-title">Simple Commissions</h3>
+            <div class="pricing-price">$1-5</div>
+            <div class="pricing-duration">or equivalent in Robux/Crypto</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Simple game mechanics</li>
+            <li>Up to 1 hour of development</li>
+            <li>Basic customization</li>
+            <li>One revision</li>
+          </ul>
+        </div>
+        
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3 class="pricing-title">Standard Package</h3>
+            <div class="pricing-price">$5-30</div>
+            <div class="pricing-duration">or equivalent in Robux/Crypto</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Complex game systems</li>
+            <li>Up to 5 hours of development</li>
+            <li>Standard customization</li>
+            <li>Basic UI (if required)</li>
+            <li>Three revisions</li>
+          </ul>
+        </div>
+        
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3 class="pricing-title">Premium Package</h3>
+            <div class="pricing-price">$30+</div>
+            <div class="pricing-duration">or equivalent in Robux/Crypto</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Advanced game systems</li>
+            <li>Complete UI with animations (if required)</li>
+            <li>Up to 15 hours of development</li>
+            <li>Best customization</li>
+            <li>Unlimited revisions</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <p>Need a custom solution? Contact me for a personalized quote.</p>
+        <a href="#contact" class="cta-button">Contact Me</a>
+      </div>
+    </div>
+  </section>
+  
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Get In Touch</h2>
+      <p>Ready to bring your Roblox game ideas to life? Contact me through Discord to discuss your project!</p>
+      
+      <div class="contact-info">
+        <div class="contact-method">
+          <div class="contact-icon">
+            <i class="fab fa-discord"></i>
+          </div>
+          <h3 class="contact-label">Discord</h3>
+          <p class="contact-value">skilllssue</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <div class="container">
+      <p class="copyright">© 2025 IceDev. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+// Create and inject fade-in animations
+const fadeStyle = document.createElement('style');
+fadeStyle.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  header {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+  }
+  
+  #about {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 0.3s forwards;
+  }
+  
+  #portfolio {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 0.6s forwards;
+  }
+  
+  #faq {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 0.9s forwards;
+  }
+  
+  #pricing {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 1.2s forwards;
+  }
+  
+  #contact {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 1.5s forwards;
+  }
+  
+  footer {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out 1.8s forwards;
+  }
+`;
+
+// Add the style to the head of the document
+document.head.appendChild(fadeStyle);
+
+// Wait for the entire page to load
+window.addEventListener('load', function() {
+  // Get all anchor links that point to sections on the page
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  
+  // Add click event listener to each anchor link
+  anchorLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Prevent default anchor behavior
+      e.preventDefault();
+      
+      // Get the target element from the href attribute
+      const targetId = this.getAttribute('href');
+      
+      // Make sure we have a valid target
+      if(targetId === "#" || !targetId) return;
+      
+      const targetElement = document.querySelector(targetId);
+      
+      // If target element exists, scroll to it smoothly
+      if (targetElement) {
+        // Add some offset if needed (e.g., if you have a fixed header)
+        const offset = 0; // Adjust this value if you have a fixed header
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+});
+  </script>
+</body>
+</html>
